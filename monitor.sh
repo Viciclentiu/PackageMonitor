@@ -16,13 +16,13 @@ if [ ! -f "$last_check" ]; then
 #cauta pachete instalate recent sau nu
 else
     echo "$actual" > "$dest_f/temp.txt"
-    #comm compara fisierele si nou retine ce e in temp.txt
-    nou=$(grep -Fvxf "$last_check" "$dest_f/temp.txt")
+    #comm compara fisierele si nou retine ce e in temp.txt, dar nu in last_check.txt
+    nou=$(grep -Fvxf "$last_check" "$dest_f/temp.txt")./
     if [[ -z "$nou" ]]; then
         echo "[$(date)] Nu s-a efectuat nicio schimbare." >> "$newest"
     else
-        
-        echo -e "\n[$(date)] Pachete noi detectate:" >> "$newest"
+        nr_pachete=$(echo "$nou" | wc -l)
+        echo -e "\n[$(date)] $nr_pachete pachete noi detectate:" >> "$newest"
         echo "$nou" >> "$newest"
         mv "$dest_f/temp.txt" "$last_check"
     fi
