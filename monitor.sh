@@ -17,7 +17,7 @@ if [ ! -f "$last_check" ]; then
 else
     echo "$actual" > "$dest_f/temp.txt"
     #comm compara fisierele si nou retine ce e in temp.txt, dar nu in last_check.txt
-    nou=$(grep -Fvxf "$last_check" "$dest_f/temp.txt")./
+    nou=$(grep -Fvxf "$last_check" "$dest_f/temp.txt")
     if [[ -z "$nou" ]]; then
         echo "[$(date)] Nu s-a efectuat nicio schimbare." >> "$newest"
     else
