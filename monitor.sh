@@ -1,31 +1,67 @@
 #!/bin/bash
 #Se vor crea fisierele destinatie
-log="/var/log/dpkg.log"  
-dest_f="$HOME/rezultate"
-last_check="$dest_f/last_check.txt"
-newest="$dest_f/newest.txt"
+log="/var/log/dpkg.log"
+
+#TODO:
+#package_history(){
+#    hist=$(grep "$1" "$log")
+#
+#}
+
+#decizie: dest_f = "$(cd -- "$(dirname -- "$0")" && pwd)" - daca facem asa o sa faca rezultate mereu in directorul PackageMonitor
+#dest_f="./rezultate" o sa-l creeze in pwd
+script_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
+dest_f="$script_dir/rezultate"
+
+installed_save="$dest_f/installed_save.txt"
+latest="$dest_f/latest.txt"
+deleted_save="$dest_f/deleted_save.txt"
 mkdir -p "$dest_f"
 #cauta pachetele deja instalate fara datele de instalare
 # actual=$(grep " status installed " "$log" | awk '{print $4}' | cut -d: -f1 | sort -u)
 actual=$(grep " status installed " "$log" | sort -u)
 
+deleted=$(grep " remove " "$log")
+tmp=$(grep " deinstall " "$log")
+deleted+=$tmp
+tmp=$(grep " purge " "$log")
+deleted+=$tmp
+deleted=$(echo "$deleted" | sort)
+
 #da start la monitor
-if [ ! -f "$last_check" ]; then
-    echo "$actual" > "$last_check"
-    echo "[Monitorizare activa la: $(date)]" >> "$newest"
+if [ ! -f "$installed_save" ]; then
+    echo "$actual" > "$installed_save"
+    echo "$deleted" > "$deleted_save"
+    echo "[Monitorizare activa la: $(date)]" >> "$latest"
 #cauta pachete instalate recent sau nu
 else
     echo "$actual" > "$dest_f/temp.txt"
-    #comm compara fisierele si nou retine ce e in temp.txt, dar nu in last_check.txt
-    nou=$(grep -Fvxf "$last_check" "$dest_f/temp.txt")
-    if [[ -z "$nou" ]]; then
-        echo "[$(date)] Nu s-a efectuat nicio schimbare." >> "$newest"
+    echo "$deleted" > "$dest_f/temp_del.txt"
+    #curent minus installed_save (pachete instalate)
+    new=$(grep -Fvxf "$installed_save" "$dest_f/temp.txt")
+    
+    new_del=$(grep -Fvxf "$deleted_save" "$dest_f/temp_del.txt")
+
+    if [[ -z "$new" && -z "$new_del" ]]; then
+        echo "[$(date)] Nu s-a efectuat nicio schimbare." >> "$latest"
     else
-        nr_pachete=$(echo "$nou" | wc -l)
-        echo -e "\n[$(date)] $nr_pachete pachete noi detectate:" >> "$newest"
-        echo "$nou" >> "$newest"
-        mv "$dest_f/temp.txt" "$last_check"
+        #todo diferentiere elim si adaugat
+        package_number=$(echo "$new" | wc -l)
+        package_number_del=$(echo "$new_del" | wc -l)
+        echo -e "\n[$(date)] $package_number pachete noi detectate:" >> "$latest"
+        echo "$new" >> "$latest"
+        echo "-----------" >> "$latest"
+        echo -e "\n[$(date)] $package_number_del pachete eliminate:" >> "$latest"
+        echo "$new_del" >> "$latest"
+        echo "-----------" >> "$latest"
+
+        mv "$dest_f/temp_del.txt" "$deleted_save" 
+        rm "$dest_f/temp_del.txt"
+        mv "$dest_f/temp.txt" "$installed_save"
+        rm "$dest_f/temp.txt"     
     fi
+    rm "$dest_f/temp_del.txt"
+    rm "$dest_f/temp.txt"
 fi 
 exit 0
 
