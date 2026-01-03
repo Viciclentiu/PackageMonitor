@@ -1,0 +1,2 @@
+2026-01-03 23:04:27 status installed cowsay:all 3.03+dfsg2-8
+2026-01-03 23:04:27 status installed man-db:amd64 2.12.0-4build2
