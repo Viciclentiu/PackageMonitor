@@ -17,7 +17,7 @@ while true; do
     echo "3) Removed packages"
     echo "4) Exit"
     echo
-    read -p "Choice: " c
+    read -p "Choice (Please input the number of the choice): " c
 
     case "$c" in
         1) less "$DATA/installed_save.txt" ;;

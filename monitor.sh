@@ -1,4 +1,6 @@
 #!/bin/bash
+
+./setup_crontab.sh
 #Se vor crea fisierele destinatie
 log="/var/log/dpkg.log"
 
@@ -12,7 +14,6 @@ log="/var/log/dpkg.log"
 #dest_f="./rezultate" o sa-l creeze in pwd
 script_dir="$(cd -- "$(dirname -- "$0")" && pwd)"
 dest_f="$script_dir/rezultate"
-
 installed_save="$dest_f/installed_save.txt"
 latest="$dest_f/latest.txt"
 deleted_save="$dest_f/deleted_save.txt"
