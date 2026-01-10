@@ -3,18 +3,30 @@
 #Se vor crea fisierele destinatie
 log="/var/log/dpkg.log"
 
-#TODO:
 package_history(){
     hist=$(grep "$1" "$log" | sort -u)
     echo "$hist"
 }
 
-#TODO:
-#interval de timp
-#search_interval(){
-#
-#}
-#
+search_interval(){
+    start="$1"
+    end="$2"
+
+    echo "=== INSTALLED between $start and $end ==="
+    awk -v s="$start" -v e="$end" '
+        $1 >= s && $1 <= e && $3 == "install" {
+            print $1, $2, "INSTALLED:", $4
+        }
+    ' "$log"
+
+    echo
+    echo "=== REMOVED between $start and $end ==="
+    awk -v s="$start" -v e="$end" '
+        $1 >= s && $1 <= e && ($3=="remove" || $3=="deinstall" || $3=="purge") {
+            print $1, $2, "REMOVED:", $4
+        }
+    ' "$log"
+}
 
 monitor(){
     #dest_f = "$(cd -- "$(dirname -- "$0")" && pwd)" - mereu in directorul PackageMonitor
