@@ -35,9 +35,10 @@ while true; do
             ;;
         5)
             echo "===== Package Monitor ====="
-            #to decide time format
-            read -p "Please write the interval: " interval
-            ./monitor search_interval "$interval" | less
+            
+            read -p "Please write the beginning date: " interval
+	    read -p "Please wtite the end date: " interval2
+            ./monitor.sh search_interval "$interval" "$interval2" | less
             ;;
         6) 
             exit 0;;
