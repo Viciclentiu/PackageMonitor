@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./monitor.sh
+./monitor.sh monitor
 DATA="./rezultate"
 
 
