@@ -31,7 +31,7 @@ while true; do
         4)
             echo "===== Package Monitor ====="
             read -p "Please write the name of the packing you are looking for: "  pk
-            ./monitor search_history "$pk" | less  
+            ./monitor.sh package_history "$pk" | less  
             ;;
         5)
             echo "===== Package Monitor ====="

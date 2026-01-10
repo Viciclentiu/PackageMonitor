@@ -4,10 +4,10 @@
 log="/var/log/dpkg.log"
 
 #TODO:
-#package_history(){
-#    hist=$(grep "$1" "$log")
-#
-#}
+package_history(){
+    hist=$(grep "$1" "$log" | sort -u)
+    echo "$hist"
+}
 
 #TODO:
 #interval de timp
