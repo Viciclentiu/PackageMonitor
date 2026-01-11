@@ -16,16 +16,14 @@ search_interval(){
     awk -v s="$start" -v e="$end" '
         $1 >= s && $1 <= e && $3 == "install" {
             print $1, $2, "INSTALLED:", $4
-        }
-    ' "$log"
+        } ' "$log"
 
     echo
     echo "=== REMOVED between $start and $end ==="
     awk -v s="$start" -v e="$end" '
         $1 >= s && $1 <= e && ($3=="remove" || $3=="deinstall" || $3=="purge") {
             print $1, $2, "REMOVED:", $4
-        }
-    ' "$log"
+        } ' "$log"
 }
 
 monitor(){
