@@ -1,0 +1,3 @@
+2026-01-03 23:56:01 remove cowsay:all 3.03+dfsg2-8 <none>
+2026-01-10 21:52:47 remove cowsay:all 3.03+dfsg2-8 <none>
+2026-01-10 23:06:11 remove cowsay:all 3.03+dfsg2-8 <none>
