@@ -19,7 +19,7 @@ while true; do
     echo "5) Changes made in a time interval"
     echo "6) Exit"
     echo
-    read -p "Please input the number of the choice: " c
+    read -p "Please input the choice number: " c
 
     case "$c" in
         1) 
@@ -30,14 +30,14 @@ while true; do
             less "$DATA/deleted_save.txt" ;;
         4)
             echo "===== Package Monitor ====="
-            read -p "Please write the name of the packing you are looking for: "  pk
+            read -p "Please write the name of the package you are looking for: "  pk
             ./monitor.sh package_history "$pk" | less  
             ;;
         5)
             echo "===== Package Monitor ====="
             
             read -p "Please write the beginning date: " interval
-	    read -p "Please wtite the end date: " interval2
+	    read -p "Please write the end date: " interval2
             ./monitor.sh search_interval "$interval" "$interval2" | less
             ;;
         6) 
