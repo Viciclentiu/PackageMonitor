@@ -66,7 +66,7 @@ monitor(){
         if [[ -z "$new" && -z "$new_del" ]]; then
             echo "[$(date)] Nu s-a efectuat nicio schimbare." >> "$latest"
         else
-            #todo diferentiere elim si adaugat
+            
             package_number=$(echo "$new" | wc -l)
             package_number_del=$(echo "$new_del" | wc -l)
             echo -e "\n[$(date)] $package_number pachete noi detectate:" >> "$latest"
